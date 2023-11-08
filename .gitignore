@@ -1,4 +1,5 @@
 *.out
-haar    
+haar
+exe_seq    
 *.o
 *.in
