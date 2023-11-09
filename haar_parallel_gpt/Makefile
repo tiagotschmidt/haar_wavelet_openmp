@@ -1,10 +1,10 @@
-FLAGS=-O2
+FLAGS=-O2 -fopenmp
 
 CC=gcc
 
 RM=rm -f
 
-EXEC=haar
+EXEC=haar_gpt
 
 all: clean $(EXEC)
 

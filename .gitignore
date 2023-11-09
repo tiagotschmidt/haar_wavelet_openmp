@@ -3,3 +3,6 @@ haar
 exe_seq    
 *.o
 *.in
+haarGenerator
+haar_gpt
+*.csv

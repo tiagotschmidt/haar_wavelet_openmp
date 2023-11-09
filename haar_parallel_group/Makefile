@@ -6,14 +6,14 @@ RM=rm -f
 
 EXEC=haar
 
-all: $(EXEC)
+all: clean $(EXEC) 
 
 $(EXEC):
 	$(CC) $(FLAGS) $(EXEC).c -c -o $(EXEC).o
 	$(CC) $(FLAGS) $(EXEC).o -o $(EXEC)
 
-run: clean all
-	command time -v ./$(EXEC)
+run: 
+	./$(EXEC)
 
 clean:
 	$(RM) $(EXEC).o $(EXEC)

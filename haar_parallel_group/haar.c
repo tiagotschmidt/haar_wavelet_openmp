@@ -23,8 +23,8 @@ int main(int argc, char *argv[]) {
 	FILE *in;
 	FILE *out;
 
-	double start_time, end_time, start_time_internal, end_time_internal, exec_time, exec_time_internal;
-    start_time = omp_get_wtime();
+	//double start_time, end_time, start_time_internal, end_time_internal, exec_time, exec_time_internal;
+    //start_time = omp_get_wtime();
 
 	in = fopen("image.in", "rb");
 	if (in == NULL) {
@@ -59,14 +59,14 @@ int main(int argc, char *argv[]) {
 	print(pixels, size);
 #endif
 
-	end_time = omp_get_wtime();
-    exec_time = end_time - start_time;
-    printf("Time taken is %f\n", exec_time);
+	// end_time = omp_get_wtime();
+    // exec_time = end_time - start_time;
+    // printf("Time taken is %f\n", exec_time);
 
 	// haar
 	SQRT_2 = sqrt(2);
 	for (s = size; s > 1; s /= 2) {
-		start_time_internal = omp_get_wtime();
+		//start_time_internal = omp_get_wtime();
 		
 		mid = s / 2;
 		// row-transformation
@@ -83,16 +83,16 @@ int main(int argc, char *argv[]) {
 			}
 		}
 
-		end_time_internal = omp_get_wtime();
-    	exec_time_internal = end_time_internal - start_time_internal;
-    	printf("[INTERNAL-%lld]Time taken is %f\n", s,exec_time_internal);
+		// end_time_internal = omp_get_wtime();
+    	// exec_time_internal = end_time_internal - start_time_internal;
+    	// printf("[INTERNAL-%lld]Time taken is %f\n", s,exec_time_internal);
 
 #ifdef DEBUG
 		printf("after row-transformation: %lld\n", mid);
 		print(pixels, size);
 #endif
 
-		start_time_internal = omp_get_wtime();
+		//start_time_internal = omp_get_wtime();
 		// column-transformation
 		#pragma omp parallel
 		#pragma omp for nowait
@@ -107,9 +107,9 @@ int main(int argc, char *argv[]) {
 			}
 		}
 
-		end_time_internal = omp_get_wtime();
-    	exec_time_internal = end_time_internal - start_time_internal;
-    	printf("[INTERNAL-%lld]Time taken is %f\n", s,exec_time_internal);
+		// end_time_internal = omp_get_wtime();
+    	// exec_time_internal = end_time_internal - start_time_internal;
+    	// printf("[INTERNAL-%lld]Time taken is %f\n", s,exec_time_internal);
 
 #ifdef DEBUG
 		printf("after column-transformation: %lld\n", mid);
@@ -119,9 +119,9 @@ int main(int argc, char *argv[]) {
 
 	fwrite(pixels, size * size * sizeof(int), 1, out);
 
-	end_time = omp_get_wtime();
-    exec_time = end_time - start_time;
-    printf("Time taken is %f\n", exec_time);
+	// end_time = omp_get_wtime();
+    // exec_time = end_time - start_time;
+    // printf("Time taken is %f\n", exec_time);
 
 	free(pixels);
 
