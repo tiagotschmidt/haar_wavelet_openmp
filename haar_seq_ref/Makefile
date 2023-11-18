@@ -1,4 +1,4 @@
-FLAGS=-O2
+FLAGS=-O2 -fopenmp
 
 CC=gcc
 

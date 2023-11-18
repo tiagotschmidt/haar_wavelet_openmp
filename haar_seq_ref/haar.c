@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
+#include <omp.h>
 
 #define pixel(x,y) pixels[((y)*size)+(x)]
 
@@ -19,8 +20,11 @@ void print(int *pixels, int size) {
 
 int main(int argc, char *argv[]) {
 
+	double itime, ftime, exec_time;
+    itime = omp_get_wtime();
+
 	FILE *in;
-	FILE *out;
+	FILE *out;    
 
 	in = fopen("image.in", "rb");
 	if (in == NULL) {
@@ -54,6 +58,12 @@ int main(int argc, char *argv[]) {
 	printf("origin: %lld\n", size);
 	print(pixels, size);
 #endif
+
+	ftime = omp_get_wtime();
+    exec_time = ftime - itime;
+    printf("Label: Pré-haar\n");
+	printf("Elapsed Time: %f\n", exec_time);
+	itime = omp_get_wtime();
 
 	// haar
 	SQRT_2 = sqrt(2);
@@ -93,12 +103,23 @@ int main(int argc, char *argv[]) {
 #endif
 	}
 
+	ftime = omp_get_wtime();
+    exec_time = ftime - itime;
+    printf("Label1: Pós-haar\n");
+	printf("Elapsed Time1: %f\n", exec_time);
+	itime = omp_get_wtime();
+
 	fwrite(pixels, size * size * sizeof(int), 1, out);
 
 	free(pixels);
 
 	fclose(out);
 	fclose(in);
+
+	ftime = omp_get_wtime();
+	exec_time = ftime - itime;
+    printf("Label2: Até-fim\n");
+	printf("Elapsed Time2: %f\n", exec_time);
 
 	return EXIT_SUCCESS;
 }
