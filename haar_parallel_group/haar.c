@@ -20,11 +20,11 @@ void print(int *pixels, int size) {
 
 int main(int argc, char *argv[]) {
 
+	double itime, ftime, exec_time;
+    itime = omp_get_wtime();
+
 	FILE *in;
 	FILE *out;
-
-	//double start_time, end_time, start_time_internal, end_time_internal, exec_time, exec_time_internal;
-    //start_time = omp_get_wtime();
 
 	in = fopen("image.in", "rb");
 	if (in == NULL) {
@@ -59,9 +59,11 @@ int main(int argc, char *argv[]) {
 	print(pixels, size);
 #endif
 
-	// end_time = omp_get_wtime();
-    // exec_time = end_time - start_time;
-    // printf("Time taken is %f\n", exec_time);
+	ftime = omp_get_wtime();
+    exec_time = ftime - itime;
+    printf("Label: Pré-haar\n");
+	printf("Elapsed Time: %f\n", exec_time);
+	itime = omp_get_wtime();
 
 	// haar
 	SQRT_2 = sqrt(2);
@@ -81,12 +83,7 @@ int main(int argc, char *argv[]) {
 				pixel(x,y) = a;
 				pixel(mid+x,y) = d;
 			}
-		}
-
-		// end_time_internal = omp_get_wtime();
-    	// exec_time_internal = end_time_internal - start_time_internal;
-    	// printf("[INTERNAL-%lld]Time taken is %f\n", s,exec_time_internal);
-
+		}	
 #ifdef DEBUG
 		printf("after row-transformation: %lld\n", mid);
 		print(pixels, size);
@@ -117,16 +114,23 @@ int main(int argc, char *argv[]) {
 #endif
 	}
 
-	fwrite(pixels, size * size * sizeof(int), 1, out);
+	ftime = omp_get_wtime();
+    exec_time = ftime - itime;
+    printf("Label1: Pós-haar\n");
+	printf("Elapsed Time1: %f\n", exec_time);
+	itime = omp_get_wtime();
 
-	// end_time = omp_get_wtime();
-    // exec_time = end_time - start_time;
-    // printf("Time taken is %f\n", exec_time);
+	fwrite(pixels, size * size * sizeof(int), 1, out);
 
 	free(pixels);
 
 	fclose(out);
 	fclose(in);
+
+	ftime = omp_get_wtime();
+	exec_time = ftime - itime;
+    printf("Label2: Até-fim\n");
+	printf("Elapsed Time2: %f\n", exec_time);
 
 	return EXIT_SUCCESS;
 }
