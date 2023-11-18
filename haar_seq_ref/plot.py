@@ -1,6 +1,7 @@
 import csv
 import numpy as np
 import matplotlib.pyplot as plt
+from scipy.stats import norm
 
 # Load data from CSV file
 with open('time_responses_seq.csv', 'r') as csvfile:
@@ -10,19 +11,24 @@ with open('time_responses_seq.csv', 'r') as csvfile:
 # Extract times and convert to numpy array
 times = np.array([float(row[1]) for row in data[1:]])
 
-# Calculate statistics
-average_time = np.mean(times)
-median_time = np.median(times)
-variance_time = np.var(times)
+mu, std = norm.fit(times)
 
-print(f'Average Time: {average_time} seconds')
-print(f'Median Time: {median_time} seconds')
-print(f'Variance Time: {variance_time} seconds^2')
+# Plot histogram
+plt.hist(times, bins=25, density=True, alpha=0.6, color=f'C0', label=f'Sequencial')
 
-# Plot a histogram
-plt.xticks(np.arange(min(times), max(times)+1, 0.5))
-plt.hist(times, bins=100, edgecolor='black')
-plt.title('Distribution of Execution Times')
-plt.xlabel('Execution Time (seconds)')
+# Plot fitted Gaussian curve
+xmin, xmax = plt.xlim()
+x = np.linspace(xmin, xmax, 100)
+p = norm.pdf(x, mu, std)
+plt.plot(x, p, f'C0', linewidth=2)
+
+# Display statistics
+avg = np.mean(times)
+median = np.median(times)
+stdev = np.std(times)
+plt.title(f'Elapsed Times - Sequencial\nAverage: {avg:.2f}, Median: {median:.2f}, StdDev: {stdev:.2f}')
+plt.xlabel('Elapsed Time (seconds)')
 plt.ylabel('Frequency')
+plt.legend()
 plt.show()
+
