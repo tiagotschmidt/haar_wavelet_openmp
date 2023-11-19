@@ -10,7 +10,7 @@ def read_elapsed_times(file_path):
     return times
 
 # File paths for your CSV files
-file_paths = ['Pré-haar_times.csv', 'Pós-haar_times.csv', 'Pós-haar_times.csv']
+file_paths = ['Pré-haar_times.csv', 'Pós-haar_times.csv', 'Até-fim_times.csv']
 
 # Plot Gaussian graphics separately
 for i, file_path in enumerate(file_paths, start=1):

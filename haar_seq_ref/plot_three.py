@@ -10,7 +10,7 @@ def read_elapsed_times(file_path):
     return times
 
 # File paths for your CSV files
-file_paths = ['Pré-haar_times.csv', 'Pós-haar_times.csv', 'Pós-haar_times.csv']
+file_paths = ['Pré-haar_times.csv', 'Pós-haar_times.csv', 'Até-fim_times.csv']
 
 # Plot Gaussian graphics separately
 for i, file_path in enumerate(file_paths, start=1):
@@ -21,7 +21,7 @@ for i, file_path in enumerate(file_paths, start=1):
     mu, std = norm.fit(times)
 
     # Plot histogram
-    plt.hist(times, bins=25, density=False, alpha=0.6, color=f'C{i-1}', label=f'{file_path}')
+    plt.hist(times, bins=25, density=True, alpha=0.6, color=f'C{i-1}', label=f'{file_path}')
 
     # Plot fitted Gaussian curve
     xmin, xmax = plt.xlim()

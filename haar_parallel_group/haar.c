@@ -73,7 +73,7 @@ int main(int argc, char *argv[]) {
 		mid = s / 2;
 		// row-transformation
 		#pragma omp parallel
-		#pragma omp for nowait
+		#pragma omp for nowait collapse(2)
 		for (y = 0; y < mid; y++) {
 			for (x = 0; x < mid; x++) {
 				a = pixel(x,y);
@@ -92,7 +92,7 @@ int main(int argc, char *argv[]) {
 		//start_time_internal = omp_get_wtime();
 		// column-transformation
 		#pragma omp parallel
-		#pragma omp for nowait
+		#pragma omp for nowait collapse(2)
 		for (y = 0; y < mid; y++) {
 			for (x = 0; x < mid; x++) {
 				a = pixel(x,y);
